@@ -21,7 +21,8 @@ import(
 "fmt"
 )
   // Search Example
-  api := hsapi.NewHsAPI("tntkXJyM7EmshBgQYsXtCHHEX8Izp1uHrN1jsnTpw7tNCxEZIN") // Get yours in mashape
+  func main() {
+  	api := hsapi.NewHsAPI("tntkXJyM7EmshBgQYsXtCHHEX8Izp1uHrN1jsnTpw7tNCxEZIN") // Get yours in mashape
 	api.Debug = true // Will print debug outputs
 	config := hsapi.NewCardSearch("tirion fordring") // or any incomplete search
 	config.Collectible = true // To narrow the search a little more
@@ -34,4 +35,5 @@ import(
 	f, err := os.Create("Tirion_Fordring.gif")
 	defer f.Close()
 	f.Write(resp.Image) // Writing []byte into the file
+  }
 ```
