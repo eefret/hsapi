@@ -2,7 +2,7 @@ package sounds
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"strings"
 )
 
 //CardSounds is the struct defined in the json
@@ -20,13 +20,9 @@ type CardSounds struct {
 
 
 func New() (CardSounds, error) {
-	content, err := ioutil.ReadFile("sounds/card_sounds.json")
-	if err != nil {
-		return CardSounds{}, err
-	}
-
 	var cardSounds CardSounds
-	err = json.Unmarshal(content, &cardSounds)
+	decoder := json.NewDecoder(strings.NewReader(bigJson))
+	err := decoder.Decode(&cardSounds)
 	if err != nil {
 		return CardSounds{}, err
 	}

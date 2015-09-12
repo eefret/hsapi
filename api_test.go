@@ -201,7 +201,7 @@ func TestSoundCard(t *testing.T) {
 	f.Write(resp.Sound)
 	_, existsErr := os.Stat("test_sounds/Tirion_Fordring_Play.mp3")
 	assert.True(t, !os.IsNotExist(existsErr), "File couldnt be created")
-	//assert.NoError(t, os.Remove("test_sounds/Tirion_Fordring_Play.mp3"), "couldn't remove the file")
+	assert.NoError(t, os.Remove("test_sounds/Tirion_Fordring_Play.mp3"), "couldn't remove the file")
 }
 
 func TestErrors(t *testing.T) {

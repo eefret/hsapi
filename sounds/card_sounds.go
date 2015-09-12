@@ -1,4 +1,6 @@
-{
+package sounds
+
+var bigJson string = `{
   "ru": {
     "GVG_039": {
       "death": [
@@ -43705,4 +43707,4 @@
       "etc": []
     }
   }
-}
+}`
