@@ -83,6 +83,14 @@ type CardImageResponse struct {
 	Extension FileExtension
 }
 
+//CardSoundResponse is the response returned by the CardSound endpoint
+type CardSoundResponse struct {
+	Sound []byte
+	ContentLength int64
+	Extension FileExtension
+	Type SoundType
+}
+
 //==========================================REQUEST STRUCTS
 
 //AllCardsConfig configuration of the AllCards method
@@ -170,4 +178,12 @@ type CardImageConfig struct {
 	CardID string
 	Gold bool
 	Locale Locale
+}
+
+//CardSoundConfig configudation of the GetCardSound method
+type CardSoundConfig struct {
+	CardID string
+	Type SoundType
+	Locale Locale
+	Extension FileExtension
 }

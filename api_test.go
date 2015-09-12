@@ -6,6 +6,7 @@ import(
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
+	"fmt"
 )
 
 func TestHs(t *testing.T) {
@@ -181,6 +182,28 @@ func TestImgCard(t *testing.T) {
 	assert.NoError(t, os.Remove("test_images/Tirion_Fordring.gif"), "couldn't remove the file")
 }
 
+func TestSoundCard(t *testing.T) {
+	api := hs.NewHsAPI("tntkXJyM7EmshBgQYsXtCHHEX8Izp1uHrN1jsnTpw7tNCxEZIN")
+	api.Debug = true
+	config := hs.NewCardSound("EX1_383", hs.PLAY)
+	config.Locale = hs.EsES
+	config.Extension = hs.MP3
+	resp, err := api.CardSound(config)
+	assert.Equal(t, hs.MP3.String(), resp.Extension.String(), "Wrong extension")
+	assert.NoError(t, err, "An error ocurred while testing CardImage")
+	fmt.Printf("%q\n", resp)
+	if _, err := os.Stat("test_sounds"); os.IsNotExist(err) {
+		os.Mkdir("." + string(filepath.Separator) +"test_sounds", 0777)
+	}
+	f, err := os.Create("test_sounds/Tirion_Fordring_Play.mp3")
+	assert.NoError(t, err, "An error ocurred while testing CardImage")
+	defer f.Close()
+	f.Write(resp.Sound)
+	_, existsErr := os.Stat("test_sounds/Tirion_Fordring_Play.mp3")
+	assert.True(t, !os.IsNotExist(existsErr), "File couldnt be created")
+	//assert.NoError(t, os.Remove("test_sounds/Tirion_Fordring_Play.mp3"), "couldn't remove the file")
+}
+
 func TestErrors(t *testing.T) {
 	api := hs.NewHsAPI("tntkXJyM7EmshBgQYsXtCHHIzp1jsnTpw7tNCxEZIN")
 	api.Debug = true
@@ -269,4 +292,10 @@ func TestErrors(t *testing.T) {
 	config11.Gold = true
 	_, err11 := api.CardImage(config11)
 	assert.Error(t, err11, "An error ocurred while testing Errors")
+
+	//CardImg
+	config12 := hs.NewCardSound("EX1383", hs.ATTACK)
+	config12.Extension = hs.MP3
+	_, err12 := api.CardSound(config12)
+	assert.Error(t, err12, "An error ocurred while testing Errors")
 }

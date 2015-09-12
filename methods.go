@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"errors"
 	"strconv"
+	"github.com/eefret/hsapi/sounds"
 )
 
 //All constants
@@ -26,6 +27,12 @@ const (
 	CardByQUALITY="cards/qualities/%v"
 	CardByTYPE="cards/types/%v"
 	CardByFACTION="cards/factions/%v"
+	SoundsURL="http://wowimg.zamimg.com/hearthhead/sounds%v/VO_%v_%v_%v.%v"
+	//First %v is locale with a / before and in low caps if exists if not ''
+	//Second %v is CardID
+	//Third %v is SoundType
+	//Fourth %v is Index (01-05)
+	//Last %v is Extension (ogg, mp3)
 )
 
 //ErrMultipleCards is thrown when a single card is required but the query returns several
@@ -304,5 +311,66 @@ func (hs *HsAPI) CardImage(config CardImageConfig) (CardImageResponse, error) {
 		Image: image,
 		ContentLength: length,
 		Extension: extension,
+	}, nil
+}
+
+func (hs *HsAPI) CardSound(config CardSoundConfig) (CardSoundResponse, error) {
+	soundsMap, err := sounds.New()
+	if err != nil {
+		return CardSoundResponse{}, err
+	}
+
+	var URL string
+	var soundsArray []string
+	var ok bool
+	//first get url from the map
+	switch config.Locale {
+		case EnUS:
+			soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
+		case EnGB:
+			soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
+		case DeDE:
+			soundsArray, ok = soundsMap.De[config.CardID][strings.ToLower(config.Type.String())]
+		case EsES:
+			soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
+		case EsMX:
+			soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
+		case FrFR:
+			soundsArray, ok = soundsMap.Fr[config.CardID][strings.ToLower(config.Type.String())]
+		case ItIT:
+			soundsArray, ok = soundsMap.It[config.CardID][strings.ToLower(config.Type.String())]
+		case PtBR:
+			soundsArray, ok = soundsMap.Pt[config.CardID][strings.ToLower(config.Type.String())]
+		case RuRU:
+			soundsArray, ok = soundsMap.Ru[config.CardID][strings.ToLower(config.Type.String())]
+	}
+
+	if !ok {
+		return CardSoundResponse{}, errors.New("card not found")
+	}
+
+	if config.Extension == OGG {
+		URL = soundsArray[0]
+	} else if config.Extension == MP3 {
+		URL = soundsArray[1]
+	}
+
+	resp, err := hs.simpleGetBodyRequest(URL)
+
+	defer resp.Body.Close()
+	sound, err := ioutil.ReadAll(resp.Body)
+	length, err := strconv.ParseInt(resp.Header.Get("Content-Length"),
+		10, 64)
+
+	if err != nil {
+		fmt.Println(err)
+		return CardSoundResponse{}, err
+	}
+
+	return CardSoundResponse{
+		Sound: sound,
+		ContentLength: length,
+		Extension: config.Extension,
+		Type: config.Type,
 	}, nil
 }

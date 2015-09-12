@@ -225,3 +225,23 @@ var extensions = [...] string {
 func (f FileExtension) String() string{
 	return extensions[f]
 }
+
+//SoundType is the enum for the extensions
+type SoundType int
+//SoundType objects
+const (
+	PLAY SoundType = iota + 1
+	ATTACK
+	DEATH
+	TRIGGER
+)
+var soundtypes = [...] string {
+	"",
+	"Play",
+	"Attack",
+	"Death",
+	"Trigger",
+}
+func (s SoundType) String() string{
+	return soundtypes[s]
+}

@@ -93,3 +93,15 @@ func NewCardImage(cardID string) CardImageConfig {
 		Locale: EnUS,
 	}
 }
+
+//NewCardSound creates a new CardSoundConfig
+//CardID and SoundType are mandatory, default local is enUS and
+//default extension is MP3
+func NewCardSound(cardID string, soundType SoundType) CardSoundConfig {
+	return CardSoundConfig{
+		CardID: cardID,
+		Type: soundType,
+		Extension: MP3,
+		Locale: EnUS,
+	}
+}
