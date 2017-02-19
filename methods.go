@@ -51,9 +51,9 @@ func (hs *HsAPI) makeRequest(endpoint string, keyparam string, params url.Values
 	url.RawQuery = params.Encode()
 
 	req, err := http.NewRequest("GET", url.String(), nil)
-	req.Header.Set("X-Mashape-Key", hs.token)
+	req.Header.Set("X-Mashape-Key", hs.Token)
 	req.Header.Set("Accept", "application/json")
-	resp, err := hs.client.Do(req)
+	resp, err := hs.Client.Do(req)
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
@@ -107,7 +107,7 @@ func (hs *HsAPI) parseValues(config interface{}, exclude int) url.Values {
 }
 
 func (hs *HsAPI) simpleGetBodyRequest(URL string) (*http.Response, error) {
-	resp, err := hs.client.Get(URL)
+	resp, err := hs.Client.Get(URL)
 	if err != nil || resp.StatusCode != http.StatusOK {
 		return nil, err
 	}
