@@ -134,7 +134,7 @@ func TestQuality(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].Name, "Bloodmage Thalnos" , "Wrong card fetched")
+	assert.Equal(t, resp[0].Name, "Patches the Pirate" , "Wrong card fetched")
 }
 
 func TestRace(t *testing.T) {
@@ -158,7 +158,7 @@ func TestType(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].PlayerClass, hs.Paladin.String() , "Wrong card fetched")
+	assert.Equal(t, resp[0].PlayerClass, hs.Warrior.String() , "Wrong card fetched")
 }
 
 func TestImgCard(t *testing.T) {
