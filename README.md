@@ -1,4 +1,4 @@
-# Hearthstone API [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/eefret/hsapi) [![Build Status](https://travis-ci.org/eefret/hsapi.svg?branch=master)](https://travis-ci.org/eefret/hsapi)
+# Hearthstone API [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/eefret/hsapi) [![Build Status](https://travis-ci.org/eefret/hsapi.svg?branch=master)](https://travis-ci.org/eefret/hsapi) [![Go Report Card](https://goreportcard.com/badge/github.com/eefret/hsapi)](https://goreportcard.com/report/github.com/eefret/hsapi)
 Golang Bindings for the hearthstoneapi.com API
 
 ## Summary
