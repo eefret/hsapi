@@ -315,6 +315,7 @@ func (hs *HsAPI) CardImage(config CardImageConfig) (CardImageResponse, error) {
 	}, nil
 }
 
+//CardSound search a the sound card scrapping HearthHead if there is any match it returns it.
 func (hs *HsAPI) CardSound(config CardSoundConfig) (CardSoundResponse, error) {
 	soundsMap, err := sounds.New()
 	if err != nil {

@@ -18,6 +18,7 @@ type CardSounds struct {
 	Ru map[string]map[string][]string `json:"ru"`
 }
 
+//New creates a new Sounds object
 func New() (CardSounds, error) {
 	var cardSounds CardSounds
 	decoder := json.NewDecoder(strings.NewReader(bigJson))
