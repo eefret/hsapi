@@ -3,15 +3,13 @@ package hsapi
 //NewAllCards creates a new AllCardsConfig
 //no mandatory parameters required default locale is enUS
 func NewAllCards() AllCardsConfig {
-	return AllCardsConfig{
-	}
+	return AllCardsConfig{}
 }
 
 //NewCardBacks creates a new CardBacksConfig
 //no mandatory parameters required default locale is enUS
 func NewCardBacks() CardBacksConfig {
-	return CardBacksConfig{
-	}
+	return CardBacksConfig{}
 }
 
 //NewCardSearch creates a new CardSearchConfig
@@ -89,7 +87,7 @@ func NewInfo() InfoConfig {
 func NewCardImage(cardID string) CardImageConfig {
 	return CardImageConfig{
 		CardID: cardID,
-		Gold: false,
+		Gold:   false,
 		Locale: EnUS,
 	}
 }
@@ -99,9 +97,9 @@ func NewCardImage(cardID string) CardImageConfig {
 //default extension is MP3
 func NewCardSound(cardID string, soundType SoundType) CardSoundConfig {
 	return CardSoundConfig{
-		CardID: cardID,
-		Type: soundType,
+		CardID:    cardID,
+		Type:      soundType,
 		Extension: MP3,
-		Locale: EnUS,
+		Locale:    EnUS,
 	}
 }

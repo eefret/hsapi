@@ -1,12 +1,12 @@
 package hsapi_test
 
-import(
+import (
+	"fmt"
 	hs "github.com/eefret/hsapi"
-	"testing"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
-	"fmt"
+	"testing"
 )
 
 func TestHs(t *testing.T) {
@@ -99,7 +99,7 @@ func TestSet(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].Type, hs.Spell.String() , "Wrong card fetched")
+	assert.Equal(t, resp[0].Type, hs.Spell.String(), "Wrong card fetched")
 }
 
 func TestClass(t *testing.T) {
@@ -110,7 +110,7 @@ func TestClass(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].Type, hs.Enchantment.String() , "Wrong card fetched")
+	assert.Equal(t, resp[0].Type, hs.Enchantment.String(), "Wrong card fetched")
 }
 
 func TestFaction(t *testing.T) {
@@ -122,7 +122,7 @@ func TestFaction(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].Faction, hs.Horde.String() , "Wrong card fetched")
+	assert.Equal(t, resp[0].Faction, hs.Horde.String(), "Wrong card fetched")
 }
 
 func TestQuality(t *testing.T) {
@@ -134,7 +134,7 @@ func TestQuality(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].Name, "Patches the Pirate" , "Wrong card fetched")
+	assert.Equal(t, resp[0].Name, "Patches the Pirate", "Wrong card fetched")
 }
 
 func TestRace(t *testing.T) {
@@ -146,7 +146,7 @@ func TestRace(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].CardID, "BRM_004" , "Wrong card fetched")
+	assert.Equal(t, resp[0].CardID, "BRM_004", "Wrong card fetched")
 }
 
 func TestType(t *testing.T) {
@@ -158,7 +158,7 @@ func TestType(t *testing.T) {
 	assert.NotEmpty(t, resp, "Empty Response")
 	assert.NoError(t, err, "An error ocurred while testing Search")
 	assert.NotEqual(t, 0, len(resp), "obtained no cards ")
-	assert.Equal(t, resp[0].PlayerClass, hs.Warrior.String() , "Wrong card fetched")
+	assert.Equal(t, resp[0].PlayerClass, hs.Warrior.String(), "Wrong card fetched")
 }
 
 func TestImgCard(t *testing.T) {
@@ -171,7 +171,7 @@ func TestImgCard(t *testing.T) {
 	assert.NoError(t, err, "An error ocurred while testing CardImage")
 
 	if _, err := os.Stat("test_images"); os.IsNotExist(err) {
-		os.Mkdir("." + string(filepath.Separator) +"test_images", 0777)
+		os.Mkdir("."+string(filepath.Separator)+"test_images", 0777)
 	}
 	f, err := os.Create("test_images/Tirion_Fordring.gif")
 	assert.NoError(t, err, "An error ocurred while testing CardImage")
@@ -193,7 +193,7 @@ func TestSoundCard(t *testing.T) {
 	assert.NoError(t, err, "An error ocurred while testing CardImage")
 	fmt.Printf("%q\n", resp)
 	if _, err := os.Stat("test_sounds"); os.IsNotExist(err) {
-		os.Mkdir("." + string(filepath.Separator) +"test_sounds", 0777)
+		os.Mkdir("."+string(filepath.Separator)+"test_sounds", 0777)
 	}
 	f, err := os.Create("test_sounds/Tirion_Fordring_Play.mp3")
 	assert.NoError(t, err, "An error ocurred while testing CardImage")
@@ -207,7 +207,6 @@ func TestSoundCard(t *testing.T) {
 func TestErrors(t *testing.T) {
 	api := hs.NewHsAPI("tntkXJyM7EmshBgQYsXtCHHIzp1jsnTpw7tNCxEZIN")
 	api.Debug = true
-
 
 	//Type
 	config := hs.NewCardsByType(hs.Weapon)

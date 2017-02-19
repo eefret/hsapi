@@ -1,33 +1,34 @@
 package hsapi
+
 import (
-	"fmt"
-	"log"
-	"io/ioutil"
-	"net/http"
-	"reflect"
 	"encoding/json"
-	"strings"
-	"net/url"
 	"errors"
-	"strconv"
+	"fmt"
 	"github.com/eefret/hsapi/sounds"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
+	"reflect"
+	"strconv"
+	"strings"
 )
 
 //All constants
 const (
-	BaseURL = "https://omgvamp-hearthstone-v1.p.mashape.com/"
-	INFO = "info"
-	CARDS= "cards"
-	GetCARD="cards/%v"
-	CardBACK="cardbacks"
-	CardSEARCH="cards/search/%v"
-	CardBySET="cards/sets/%v"
-	CardByCLASS="cards/classes/%v"
-	CardByRACE="cards/races/%v"
-	CardByQUALITY="cards/qualities/%v"
-	CardByTYPE="cards/types/%v"
-	CardByFACTION="cards/factions/%v"
-	SoundsURL="http://wowimg.zamimg.com/hearthhead/sounds%v/VO_%v_%v_%v.%v"
+	BaseURL       = "https://omgvamp-hearthstone-v1.p.mashape.com/"
+	INFO          = "info"
+	CARDS         = "cards"
+	GetCARD       = "cards/%v"
+	CardBACK      = "cardbacks"
+	CardSEARCH    = "cards/search/%v"
+	CardBySET     = "cards/sets/%v"
+	CardByCLASS   = "cards/classes/%v"
+	CardByRACE    = "cards/races/%v"
+	CardByQUALITY = "cards/qualities/%v"
+	CardByTYPE    = "cards/types/%v"
+	CardByFACTION = "cards/factions/%v"
+	SoundsURL     = "http://wowimg.zamimg.com/hearthhead/sounds%v/VO_%v_%v_%v.%v"
 	//First %v is locale with a / before and in low caps if exists if not ''
 	//Second %v is CardID
 	//Third %v is SoundType
@@ -40,7 +41,7 @@ var ErrMultipleCards = errors.New("Multiple Cards obtained in a single card cont
 
 //==========================================GENERAL METHODS
 
-func (hs *HsAPI) makeRequest(endpoint string, keyparam string, params url.Values) ([]byte, error){
+func (hs *HsAPI) makeRequest(endpoint string, keyparam string, params url.Values) ([]byte, error) {
 	url, err := url.Parse(BaseURL)
 	if keyparam != "" {
 		url.Path += fmt.Sprintf(endpoint, keyparam)
@@ -80,14 +81,14 @@ func (hs *HsAPI) parseValues(config interface{}, exclude int) url.Values {
 
 		//if its a struct add all his fields and continue
 		if t.Field(i).Type.Kind() == reflect.Struct {
-			for k, v := range hs.parseValues(field.Interface(), -1){
+			for k, v := range hs.parseValues(field.Interface(), -1) {
 				u.Add(k, v[0])
 			}
 			continue
 		}
 
 		//If its a boolean parse to int
-		if t.Field(i).Type.Kind() == reflect.Bool && field.Interface() == true{
+		if t.Field(i).Type.Kind() == reflect.Bool && field.Interface() == true {
 			u.Add(strings.ToLower(t.Field(i).Name), "1")
 			continue
 		}
@@ -96,7 +97,7 @@ func (hs *HsAPI) parseValues(config interface{}, exclude int) url.Values {
 		if field.Interface() != reflect.Zero(field.Type()).Interface() {
 			u.Add(strings.ToLower(t.Field(i).Name), fmt.Sprintf("%v", field.Interface()))
 		}
-		if hs.Debug{
+		if hs.Debug {
 			log.Println(field.Interface())
 			log.Println(reflect.Zero(field.Type()).Interface())
 			log.Println(t.Field(i).Name)
@@ -105,7 +106,7 @@ func (hs *HsAPI) parseValues(config interface{}, exclude int) url.Values {
 	return u
 }
 
-func (hs *HsAPI) simpleGetBodyRequest(URL string) (*http.Response, error){
+func (hs *HsAPI) simpleGetBodyRequest(URL string) (*http.Response, error) {
 	resp, err := hs.client.Get(URL)
 	if err != nil || resp.StatusCode != http.StatusOK {
 		return nil, err
@@ -126,7 +127,7 @@ func (hs *HsAPI) Info(config InfoConfig) InfoResponse {
 }
 
 //AllCards obtain all cards in Hearthstone
-func (hs *HsAPI) AllCards(config AllCardsConfig) (AllCardResponse, error){
+func (hs *HsAPI) AllCards(config AllCardsConfig) (AllCardResponse, error) {
 	v := hs.parseValues(config, -1)
 	b, err := hs.makeRequest(CARDS, "", v)
 	if err == nil {
@@ -155,7 +156,7 @@ func (hs *HsAPI) CardBacks(config CardBacksConfig) ([]CardBack, error) {
 
 //GetCard obtain a single card
 //Exact Name or ID is mandatory, please use ID for more accurate
-func (hs *HsAPI) GetCard(config GetCardConfig) ([]Card, error){
+func (hs *HsAPI) GetCard(config GetCardConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(GetCARD, config.Name, v)
 	if err == nil {
@@ -170,7 +171,7 @@ func (hs *HsAPI) GetCard(config GetCardConfig) ([]Card, error){
 
 //Search search for a card given a name query
 //the Name query is Mandatory
-func (hs *HsAPI) Search(config CardSearchConfig) ([]Card, error){
+func (hs *HsAPI) Search(config CardSearchConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardSEARCH, config.Name, v)
 	if err == nil {
@@ -185,7 +186,7 @@ func (hs *HsAPI) Search(config CardSearchConfig) ([]Card, error){
 
 //CardsBySet obtains all cards of the given Set
 //Set param is mandatory
-func (hs *HsAPI) CardsBySet(config CardsBySetConfig) ([]Card, error){
+func (hs *HsAPI) CardsBySet(config CardsBySetConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardBySET, config.Set.String(), v)
 	if err == nil {
@@ -200,7 +201,7 @@ func (hs *HsAPI) CardsBySet(config CardsBySetConfig) ([]Card, error){
 
 //CardsByClass obtains all cards by class
 //Class param is mandatory
-func (hs *HsAPI) CardsByClass(config CardsByClassConfig) ([]Card, error){
+func (hs *HsAPI) CardsByClass(config CardsByClassConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardByCLASS, config.Class.String(), v)
 	if err == nil {
@@ -215,7 +216,7 @@ func (hs *HsAPI) CardsByClass(config CardsByClassConfig) ([]Card, error){
 
 //CardsByFaction obtains all cards by faction
 //Faction param is mandatory
-func (hs *HsAPI) CardsByFaction(config CardsByFactionConfig) ([]Card, error){
+func (hs *HsAPI) CardsByFaction(config CardsByFactionConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardByFACTION, config.Faction.String(), v)
 	if err == nil {
@@ -230,7 +231,7 @@ func (hs *HsAPI) CardsByFaction(config CardsByFactionConfig) ([]Card, error){
 
 //CardsByQuality obtains all cards by quality
 //Quality param is mandatory
-func (hs *HsAPI) CardsByQuality(config CardsByQualityConfig) ([]Card, error){
+func (hs *HsAPI) CardsByQuality(config CardsByQualityConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardByQUALITY, config.Quality.String(), v)
 	if err == nil {
@@ -245,7 +246,7 @@ func (hs *HsAPI) CardsByQuality(config CardsByQualityConfig) ([]Card, error){
 
 //CardsByRace obtains all cards by race
 //Race param is mandatory
-func (hs *HsAPI) CardsByRace(config CardsByRaceConfig) ([]Card, error){
+func (hs *HsAPI) CardsByRace(config CardsByRaceConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardByRACE, config.Race.String(), v)
 	if err == nil {
@@ -260,7 +261,7 @@ func (hs *HsAPI) CardsByRace(config CardsByRaceConfig) ([]Card, error){
 
 //CardsByType obtains all cards by type
 //Type param is mandatory
-func (hs *HsAPI) CardsByType(config CardsByTypeConfig) ([]Card, error){
+func (hs *HsAPI) CardsByType(config CardsByTypeConfig) ([]Card, error) {
 	v := hs.parseValues(config, 0)
 	b, err := hs.makeRequest(CardByTYPE, config.Type.String(), v)
 	if err == nil {
@@ -308,9 +309,9 @@ func (hs *HsAPI) CardImage(config CardImageConfig) (CardImageResponse, error) {
 	}
 
 	return CardImageResponse{
-		Image: image,
+		Image:         image,
 		ContentLength: length,
-		Extension: extension,
+		Extension:     extension,
 	}, nil
 }
 
@@ -325,24 +326,24 @@ func (hs *HsAPI) CardSound(config CardSoundConfig) (CardSoundResponse, error) {
 	var ok bool
 	//first get url from the map
 	switch config.Locale {
-		case EnUS:
-			soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
-		case EnGB:
-			soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
-		case DeDE:
-			soundsArray, ok = soundsMap.De[config.CardID][strings.ToLower(config.Type.String())]
-		case EsES:
-			soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
-		case EsMX:
-			soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
-		case FrFR:
-			soundsArray, ok = soundsMap.Fr[config.CardID][strings.ToLower(config.Type.String())]
-		case ItIT:
-			soundsArray, ok = soundsMap.It[config.CardID][strings.ToLower(config.Type.String())]
-		case PtBR:
-			soundsArray, ok = soundsMap.Pt[config.CardID][strings.ToLower(config.Type.String())]
-		case RuRU:
-			soundsArray, ok = soundsMap.Ru[config.CardID][strings.ToLower(config.Type.String())]
+	case EnUS:
+		soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
+	case EnGB:
+		soundsArray, ok = soundsMap.En[config.CardID][strings.ToLower(config.Type.String())]
+	case DeDE:
+		soundsArray, ok = soundsMap.De[config.CardID][strings.ToLower(config.Type.String())]
+	case EsES:
+		soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
+	case EsMX:
+		soundsArray, ok = soundsMap.Es[config.CardID][strings.ToLower(config.Type.String())]
+	case FrFR:
+		soundsArray, ok = soundsMap.Fr[config.CardID][strings.ToLower(config.Type.String())]
+	case ItIT:
+		soundsArray, ok = soundsMap.It[config.CardID][strings.ToLower(config.Type.String())]
+	case PtBR:
+		soundsArray, ok = soundsMap.Pt[config.CardID][strings.ToLower(config.Type.String())]
+	case RuRU:
+		soundsArray, ok = soundsMap.Ru[config.CardID][strings.ToLower(config.Type.String())]
 	}
 
 	if !ok {
@@ -368,9 +369,9 @@ func (hs *HsAPI) CardSound(config CardSoundConfig) (CardSoundResponse, error) {
 	}
 
 	return CardSoundResponse{
-		Sound: sound,
+		Sound:         sound,
 		ContentLength: length,
-		Extension: config.Extension,
-		Type: config.Type,
+		Extension:     config.Extension,
+		Type:          config.Type,
 	}, nil
 }

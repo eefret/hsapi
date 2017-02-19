@@ -1,26 +1,24 @@
 package hsapi
 
-
 //==========================================RESPONSE STRUCTS
 
 //AllCardResponse is a struct for allcards method
 type AllCardResponse struct {
-	Basic                []Card `json:"Basic"`
-	BlackrockMountain   []Card `json:"Blackrock Mountain"`
-	Classic              []Card `json:"Classic"`
-	Credits              []Card `json:"Credits"`
-	Debug                []Card `json:"Debug"`
+	Basic              []Card `json:"Basic"`
+	BlackrockMountain  []Card `json:"Blackrock Mountain"`
+	Classic            []Card `json:"Classic"`
+	Credits            []Card `json:"Credits"`
+	Debug              []Card `json:"Debug"`
 	GoblinsvsGnomes    []Card `json:"Goblins vs Gnomes"`
-	HeroSkins           []Card `json:"Hero Skins"`
-	Missions             []Card `json:"Missions"`
-	Naxxramas            []Card `json:"Naxxramas"`
-	Promotion            []Card `json:"Promotion"`
-	Reward               []Card `json:"Reward"`
-	System               []Card `json:"System"`
-	TavernBrawl         []Card `json:"Tavern Brawl"`
+	HeroSkins          []Card `json:"Hero Skins"`
+	Missions           []Card `json:"Missions"`
+	Naxxramas          []Card `json:"Naxxramas"`
+	Promotion          []Card `json:"Promotion"`
+	Reward             []Card `json:"Reward"`
+	System             []Card `json:"System"`
+	TavernBrawl        []Card `json:"Tavern Brawl"`
 	TheGrandTournament []Card `json:"The Grand Tournament"`
 }
-
 
 //CardsResponse is an array of cards which is returned by almost every endpoint
 
@@ -78,29 +76,29 @@ type CardBack struct {
 
 //CardImageResponse is the response returned by the CardImage endpoint
 type CardImageResponse struct {
-	Image []byte
+	Image         []byte
 	ContentLength int64
-	Extension FileExtension
+	Extension     FileExtension
 }
 
 //CardSoundResponse is the response returned by the CardSound endpoint
 type CardSoundResponse struct {
-	Sound []byte
+	Sound         []byte
 	ContentLength int64
-	Extension FileExtension
-	Type SoundType
+	Extension     FileExtension
+	Type          SoundType
 }
 
 //==========================================REQUEST STRUCTS
 
 //AllCardsConfig configuration of the AllCards method
 type AllCardsConfig struct {
-	Attack int
+	Attack      int
 	Collectible bool
-	Cost int
-	Durability int
-	Health int
-	Locale Locale
+	Cost        int
+	Durability  int
+	Health      int
+	Locale      Locale
 }
 
 //CardBacksConfig configuration of the CardBacks method
@@ -110,19 +108,19 @@ type CardBacksConfig struct {
 
 //CardSearchConfig configuration of the CardSearch method
 type CardSearchConfig struct {
-	Name string
+	Name        string
 	Collectible bool
-	Locale Locale
+	Locale      Locale
 }
 
 //BaseConfig is the base for most of the configuration types
-type BaseConfig struct{
-	Attack int
+type BaseConfig struct {
+	Attack      int
 	Collectible bool
-	Cost int
-	Durability int
-	Health int
-	Locale Locale
+	Cost        int
+	Durability  int
+	Health      int
+	Locale      Locale
 }
 
 //CardsBySetConfig configuration of the CardsBySet method
@@ -163,9 +161,9 @@ type CardsByTypeConfig struct {
 
 //GetCardConfig configuration of the GetCard method
 type GetCardConfig struct {
-	Name string
+	Name        string
 	Collectible bool
-	Locale Locale
+	Locale      Locale
 }
 
 //InfoConfig configuration of the Info method
@@ -176,14 +174,14 @@ type InfoConfig struct {
 //CardImageConfig configuration of the CardImage method
 type CardImageConfig struct {
 	CardID string
-	Gold bool
+	Gold   bool
 	Locale Locale
 }
 
 //CardSoundConfig configudation of the GetCardSound method
 type CardSoundConfig struct {
-	CardID string
-	Type SoundType
-	Locale Locale
+	CardID    string
+	Type      SoundType
+	Locale    Locale
 	Extension FileExtension
 }

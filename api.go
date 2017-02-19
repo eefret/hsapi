@@ -6,8 +6,8 @@ import (
 
 //HsAPI is the main struct for our API
 type HsAPI struct {
-	token string `json:"token"`
-	Debug bool `json:"debug"`
+	token  string       `json:"token"`
+	Debug  bool         `json:"debug"`
 	client *http.Client `json:"-"`
 }
 
@@ -19,7 +19,7 @@ func NewHsAPI(token string) *HsAPI {
 //NewHsAPIWithClient returns a new client with a custom client
 func NewHsAPIWithClient(token string, client *http.Client) *HsAPI {
 	return &HsAPI{
-		token: token,
+		token:  token,
 		client: client,
 	}
 }
